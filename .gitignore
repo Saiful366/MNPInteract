@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# PDInteract runtime outputs (do not commit large result files)
+PDInteract_output/
+PDInteract.log
+*.log
+*.err
+
+# Per-folder AlphaPulldown outputs (large binary files)
+pdb/
+*.pkl
+*.pkl.gz
+*.pdb
+
+# Jupyter / IDE
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Distribution
+*.zip
+*.tar.gz
