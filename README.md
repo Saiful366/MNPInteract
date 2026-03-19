@@ -441,6 +441,23 @@ Ensure your SLURM script requests a GPU (`--gres=gpu:a100:1`) and that GPU-enabl
 **SLURM job times out**
 Increase `--time`. MNPInteract resumes automatically — resubmit the same job.
 
+**A gene ID shows `[FAIL]` during sequence fetching**
+This means the UniProt API dropped the connection temporarily for that gene. The pipeline continues with all other proteins — only that one is skipped. To recover the missing gene, simply rerun Stage 2-4 after the job finishes:
+```bash
+sbatch run_S24.sh
+```
+MNPInteract automatically skips all folders that were already successfully processed and only retries the ones that were missed. You do not need to rerun Stage 1 or Stage 5.
+
+**Some folders are missing from the final output**
+If a folder was skipped because its sequence could not be fetched, rerun Stage 2-4:
+```bash
+sbatch run_S24.sh
+```
+Then rerun Stage 5 to regenerate the final output with the recovered proteins:
+```bash
+MNPInteract --S5
+```
+
 ---
 
 ## Package structure
