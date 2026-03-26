@@ -2,7 +2,7 @@
 
 **Complete post-AlphaPulldown pipeline for identifying high-confidence PDLP5-interacting proteins.**
 
-MNPInteract takes the raw scoring output of [AlphaPulldown](https://github.com/KosinskiLab/AlphaPulldown) and runs a three-step pipeline entirely on an HPC cluster, producing a final ranked list of high-confidence interactors.
+MNPInteract takes the raw scoring output of [AlphaPulldown](https://github.com/KosinskiLab/AlphaPulldown) and runs a three-step program entirely on an HPC cluster, producing a final ranked list of high-confidence interactors.
 
 <p align="center">
   <img src="images/mnpinteract.png" width="800">
