@@ -7,7 +7,6 @@ MNPInteract takes the raw scoring output of [AlphaPulldown](https://github.com/K
 <p align="center">
   <img src="images/mnpinteract.png" width="800">
 </p>
----
 
 ## Pipeline overview
 
