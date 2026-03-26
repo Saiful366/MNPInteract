@@ -2,7 +2,7 @@
 
 **Complete post-AlphaPulldown pipeline for identifying high-confidence PDLP5-interacting proteins.**
 
-MNPInteract takes the raw scoring output of [AlphaPulldown](https://github.com/KosinskiLab/AlphaPulldown) and runs a five-stage pipeline entirely on Nova (or any HPC cluster), producing a final ranked list of high-confidence interactors.
+MNPInteract takes the raw scoring output of [AlphaPulldown](https://github.com/KosinskiLab/AlphaPulldown) and runs a three-step pipeline entirely on an HPC cluster, producing a final ranked list of high-confidence interactors.
 
 <p align="center">
   <img src="images/mnpinteract.png" width="800">
@@ -69,22 +69,22 @@ You must have already run [AlphaPulldown](https://github.com/KosinskiLab/AlphaPu
 ```bash
 module load python/3.8.18-4j5jvxi
 python -m venv deeptmhmm-venv
-source /lustre/hdd/LAS/<your-lab>/<username>/alphapulldown/deeptmhmm-venv/bin/activate
+source /path/to/your/alphapulldown/deeptmhmm-venv/bin/activate
 
 # Step 1 — install GPU-enabled PyTorch first
 pip install torch==1.13.1+cu117 \
     --extra-index-url https://download.pytorch.org/whl/cu117
 
 # Step 2 — install all remaining DeepTMHMM dependencies
-pip install -r /lustre/hdd/LAS/<your-lab>/<username>/alphapulldown/MNPInteract/deeptmhmm_requirements.txt
+pip install -r /path/to/your/alphapulldown/MNPInteract/deeptmhmm_requirements.txt
 ```
 
 > DeepTMHMM requires a GPU (tested with NVIDIA A100 on Nova).
-> **Important:** Do not run `pip install -r` on the DeepTMHMM folder's own `requirements.txt` — it lists `torch==1.5.0+cu92` which is outdated and will break GPU support on the A100. Use the `deeptmhmm_requirements.txt` file from MNPInteract instead.
+> **Important:** Do not run `pip install -r` on the DeepTMHMM folder's own `requirements.txt` — it lists `torch==1.5.0+cu92` which is outdated and might break GPU support on the GPU. Use the `deeptmhmm_requirements.txt` file from MNPInteract instead.
 
 ### 3. Python version
 
-Python ≥ 3.8. Tested with Python 3.8.18 on Nova (Iowa State University).
+Python ≥ 3.8. Tested with Python 3.8.18.
 
 ---
 
@@ -93,7 +93,7 @@ Python ≥ 3.8. Tested with Python 3.8.18 on Nova (Iowa State University).
 ### Step 1 — Clone the repository on Nova
 
 ```bash
-cd /lustre/hdd/LAS/<your-lab>/<your-username>/
+cd /path/to/your/directory/
 git clone https://github.com/YOUR_USERNAME/MNPInteract.git
 ```
 
@@ -102,7 +102,7 @@ git clone https://github.com/YOUR_USERNAME/MNPInteract.git
 MNPInteract must be installed into the **same virtual environment as DeepTMHMM** so that the `MNPInteract` command is available when the venv is active:
 
 ```bash
-source /lustre/hdd/LAS/<your-lab>/<your-username>/alphapulldown/deeptmhmm-venv/bin/activate
+source /path/to/your/alphapulldown/deeptmhmm-venv/bin/activate
 ```
 
 ### Step 3 — Install MNPInteract
@@ -128,7 +128,7 @@ You should see the help message listing `--S1`, `--S2-4`, `--S5`.
 Move to your working directory and generate the template:
 
 ```bash
-cd /lustre/hdd/LAS/<your-lab>/<username>/alphapulldown
+cd /path/to/your/alphapulldown
 MNPInteract --print-template > conf.txt
 ```
 
@@ -188,24 +188,24 @@ Full annotated reference:
 # ── INPUT ──────────────────────────────────────────────────────────────────────
 
 # REQUIRED for Step 1 — AlphaPulldown scoring output
-Path_interpae_csv     : /lustre/hdd/LAS/<your-lab>/<username>/AlphaPulldown/predictions_with_good_interpae.csv
+Path_interpae_csv     : /path/to/your/predictions_with_good_interpae.csv
 
 # REQUIRED for Step 2 — directory of AlphaPulldown prediction sub-folders
-Path_PDB_dir          : /lustre/hdd/LAS/<your-lab>/<username>/AlphaPulldown/pdb
+Path_PDB_dir          : /path/to/your/results from AlphaPulldown
 
 # OPTIONAL — PDLP5 FASTA. Leave blank to use the built-in AT2G33330 sequence.
 Path_PDLP5_fasta      :
 
 # REQUIRED — all output files go here (created automatically if absent)
-Path_output           : /lustre/hdd/LAS/<your-lab>/<username>/AlphaPulldown/MNPInteract_output
+Path_output           : /path/to/your/alphaPulldown/MNPInteract_output
 
 # ── DEEPTMHMM (Step 2) ─────────────────────────────────────────────────────────
 
 # Path to the unpacked DeepTMHMM directory (must directly contain predict.py)
-Path_DeepTMHMM_dir    : /lustre/hdd/LAS/<your-lab>/<username>/alphapulldown/DeepTMHMM-Academic-License-v1.0
+Path_DeepTMHMM_dir    : /path/to/your/alphapulldown/DeepTMHMM-Academic-License-v1.0
 
 # Python binary inside the DeepTMHMM virtual environment
-Path_DeepTMHMM_venv   : /lustre/hdd/LAS/<your-lab>/<username>/alphapulldown/deeptmhmm-venv/bin/python
+Path_DeepTMHMM_venv   : /path/to/your/alphapulldown/deeptmhmm-venv/bin/python
 
 # ── PARALLELISM ────────────────────────────────────────────────────────────────
 
@@ -230,12 +230,12 @@ Piscore_cutoff        : 0
 
 ### Preparation
 
-Log in to Nova and activate the DeepTMHMM virtual environment. Then move to the directory containing your `conf.txt` — all steps must be run from this directory:
+Log in to HPC and activate the DeepTMHMM virtual environment. Then move to the directory containing your `conf.txt` — all steps must be run from this directory:
 
 ```bash
 ssh <username>@nova.its.iastate.edu
-source /lustre/hdd/LAS/<your-lab>/<username>/alphapulldown/deeptmhmm-venv/bin/activate
-cd /lustre/hdd/LAS/<your-lab>/<username>/AlphaPulldown
+source /path/to/your/alphapulldown/deeptmhmm-venv/bin/activate
+cd /path/to/your/alphaPulldown
 ```
 
 ---
@@ -282,9 +282,9 @@ Write a SLURM script (name it e.g. `run_stage24.sh`):
 #SBATCH --error=MNPInteract_24-%j.err
 
 module load python/3.8.18-4j5jvxi
-source /lustre/hdd/LAS/<your-lab>/<username>/alphapulldown/deeptmhmm-venv/bin/activate
+source /path/to/your/alphapulldown/deeptmhmm-venv/bin/activate
 
-cd /lustre/hdd/LAS/<your-lab>/<username>/AlphaPulldown
+cd /path/to/your/alphaPulldown
 
 MNPInteract --S2-4
 ```
@@ -370,7 +370,7 @@ All written to `Path_output/`.
 | `High_Confidence_Interactors_only.csv` | LIKELY verdict + compatible GO term |
 | **`Final_High_Confidence_Interactors_only.csv`** | **Primary output — LIKELY + GO filter + iptm ≥ 0.30 + mpDockQ ≥ 0.23** |
 
-Per-folder outputs inside each AlphaPulldown prediction sub-folder:
+Per-folder outputs inside each AlphaPulldown prediction sub-directory:
 
 | File | Description |
 |------|-------------|
@@ -432,8 +432,8 @@ The `.pdb` and `.pkl` files are from different AlphaPulldown runs. The affected 
 **`ModuleNotFoundError: No module named 'tqdm'` or `esm` or `h5py`**
 You missed installing the DeepTMHMM dependencies. Run:
 ```bash
-source /lustre/hdd/LAS/<your-lab>/<username>/alphapulldown/deeptmhmm-venv/bin/activate
-pip install -r /lustre/hdd/LAS/<your-lab>/<username>/alphapulldown/MNPInteract/deeptmhmm_requirements.txt
+source /path/to/your/alphapulldown/deeptmhmm-venv/bin/activate
+pip install -r /path/to/your/alphapulldown/MNPInteract/deeptmhmm_requirements.txt
 ```
 Then resubmit the job.
 
@@ -488,9 +488,7 @@ MNPInteract/
 
 If you use MNPInteract in your research, please cite:
 
-- **AlphaFold-Multimer**: Evans R. et al. (2022) bioRxiv. https://doi.org/10.1101/2021.10.04.463034
-- **AlphaPulldown**: Yu D. et al. (2023) Bioinformatics. https://doi.org/10.1093/bioinformatics/btac749
-- **DeepTMHMM**: Hallgren J. et al. (2022) bioRxiv. https://doi.org/10.1101/2022.04.08.487609
+- **MNPInteract**: Islam S. et al. (2026) bioRxiv. https://doi.org/....
 
 ---
 
