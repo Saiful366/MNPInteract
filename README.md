@@ -4,6 +4,9 @@
 
 MNPInteract takes the raw scoring output of [AlphaPulldown](https://github.com/KosinskiLab/AlphaPulldown) and runs a five-stage pipeline entirely on Nova (or any HPC cluster), producing a final ranked list of high-confidence interactors.
 
+<p align="center">
+  <img src="images/mnpinteract.png" width="800">
+</p>
 ---
 
 ## Pipeline overview
