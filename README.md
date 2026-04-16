@@ -10,7 +10,7 @@ MNPInteract takes the raw scoring output of [AlphaPulldown](https://github.com/K
 
 ## Overview
 
-MNPInteract runs in **three steps**, all on Nova:
+MNPInteract runs in **three steps**, all on HPC:
 
 ```
 STEP 1 — Login node (internet access, no GPU needed)
