@@ -8,7 +8,7 @@ MNPInteract takes the raw scoring output of [AlphaPulldown](https://github.com/K
   <img src="images/mnpinteract.png" width="800">
 </p>
 
-## Pipeline overview
+## Overview
 
 MNPInteract runs in **three steps**, all on Nova:
 
