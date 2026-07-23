@@ -5,7 +5,7 @@
 MNPInteract takes the raw scoring output of [AlphaPulldown](https://github.com/KosinskiLab/AlphaPulldown) and runs a three-step program entirely on an HPC cluster, producing a final ranked list of high-confidence interactors.
 
 <p align="center">
-  <img src="images/image.png" width="800">
+  <img src="images/image1.png" width="800">
 </p>
 
 ## Overview
